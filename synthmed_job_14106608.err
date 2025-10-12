@@ -1,0 +1,9 @@
+[2025-09-02T12:54:15.854809+0100][248092][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-09-02T12:54:15.854809+0100][248092][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-09-02T12:54:15.859156+0100][248092][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
+[2025-09-02T12:54:15.859156+0100][248092][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
+Traceback (most recent call last):
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/generating.py", line 32, in <module>
+    synthetic_data = synmed.generate_data()
+                     ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SynthMed' object has no attribute 'generate_data'

@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/generating.py", line 29, in <module>
+    synmed.evaluate_deep_generative_ensemble()
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/synthmed.py", line 233, in evaluate_deep_generative_ensemble
+    eval_testset = Metrics.evaluate(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/pydantic/deprecated/decorator.py", line 56, in wrapper_function
+    return vd.call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/pydantic/deprecated/decorator.py", line 151, in call
+    return self.execute(m)
+           ^^^^^^^^^^^^^^^
+  File "/home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/pydantic/deprecated/decorator.py", line 227, in execute
+    return self.raw_function(**d, **var_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/metrics/eval.py", line 188, in evaluate
+    and X_train.type() != "survival_analysis"
+        ^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'type'

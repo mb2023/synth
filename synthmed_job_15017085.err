@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/generating.py", line 16, in <module>
+    X = DataLoader(traindata, target_column=target_column)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Can't instantiate abstract class DataLoader with abstract methods __getitem__, __len__, __setitem__, columns, compression_protected_features, dataframe, decorate, drop, fillna, from_info, get_fairness_column, info, is_tabular, match, numpy, sample, satisfies, shape, test, train, unpack

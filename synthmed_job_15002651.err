@@ -1,0 +1,17 @@
+[2025-09-22T17:50:56.298028+0100][621537][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-09-22T17:50:56.298028+0100][621537][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-09-22T17:50:56.302922+0100][621537][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
+[2025-09-22T17:50:56.302922+0100][621537][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
+Traceback (most recent call last):
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/generating.py", line 27, in <module>
+    synmed.deep_generative_ensemble()
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/synthmed.py", line 172, in deep_generative_ensemble
+    deep_generative_ensemble = [
+                               ^
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/synthmed.py", line 173, in <listcomp>
+    generator.generate(count=self.X.data.shape[0]).data
+                             ^^^^^^^^^^^
+  File "/home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/pandas/core/generic.py", line 6318, in __getattr__
+    return object.__getattribute__(self, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataFrame' object has no attribute 'data'. Did you mean: '_data'?

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/mb2023/my_hpc_projects/synthcity-docker-project/generating.py", line 18, in <module>
+    X = DataLoader.from_dataframe(traindata, target_column=target_column)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'DataLoader' has no attribute 'from_dataframe'

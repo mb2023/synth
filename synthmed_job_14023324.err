@@ -1,0 +1,4 @@
+[2025-08-31T11:51:21.258632+0100][296204][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-08-31T11:51:21.258632+0100][296204][CRITICAL] Error importing TabularGoggle: No module named 'dgl'
+[2025-08-31T11:51:21.262625+0100][296204][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
+[2025-08-31T11:51:21.262625+0100][296204][CRITICAL] module disabled: /home/mb2023/.conda/envs/synth_env/lib/python3.11/site-packages/synthcity/plugins/generic/plugin_goggle.py
