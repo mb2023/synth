@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from typing import Optional, Dict
+from sklearn.model_selection import train_test_split
 
 # SynthCity
 import sys
@@ -187,95 +188,95 @@ class SynthMed:
         )
 
     def evaluate_deep_generative_ensemble(self, eval_metrics: dict = None) -> None:
-    """
-    Evaluate the deep generative ensemble. Automatically reloads train/test
-    datasets if they are missing (e.g., after a job restart).
-    """
+        """
+        Evaluate the deep generative ensemble. Automatically reloads train/test
+        datasets if they are missing (e.g., after a job restart).
+        """
 
-    # --- Safety check: reload datasets if needed ---
-    if self.X is None or self.X_test is None:
-        print("⚠️  Detected missing data loaders. Reloading original datasets...")
+        # --- Safety check: reload datasets if needed ---
+        if self.X is None or self.X_test is None:
+            print("⚠️  Detected missing data loaders. Reloading original datasets...")
 
-        from synthcity.plugins.core.dataloader import GenericDataLoader
-        import pandas as pd
-        from sklearn.model_selection import train_test_split
+            from synthcity.plugins.core.dataloader import GenericDataLoader
+            import pandas as pd
+            #from sklearn.model_selection import train_test_split
 
-        # Adjust paths and target column name as needed
-        df = pd.read_csv("master_spreadsheet.csv")
-        target_column = "Endo rem"
+            # Adjust paths and target column name as needed
+            df = pd.read_csv("master_spreadsheet.csv")
+            target_column = "Endo rem"
 
-        traindata, testdata = train_test_split(df, test_size=0.2, random_state=42)
+            traindata, testdata = train_test_split(df, test_size=0.2, random_state=42)
 
-        self.X = GenericDataLoader(traindata, target_column=target_column)
-        self.X_test = GenericDataLoader(testdata, target_column=target_column)
+            self.X = GenericDataLoader(traindata, target_column=target_column)
+            self.X_test = GenericDataLoader(testdata, target_column=target_column)
 
-    # --- Load synthetic data ---
-    dge_df = pd.read_csv(
-        self.synthetic_data_folder / f"{self.path_stub}_dge_synthetic_df.csv",
-        usecols=self.X.data.columns.to_list(),
-    )
+        # --- Load synthetic data ---
+        dge_df = pd.read_csv(
+            self.synthetic_data_folder / f"{self.path_stub}_dge_synthetic_df.csv",
+            usecols=self.X.data.columns.to_list(),
+        )
 
-    # --- Define evaluation metrics if not provided ---
-    if eval_metrics is None:
-        eval_metrics = {
-            "sanity": [
-                "data_mismatch",
-                "common_rows_proportion",
-                "nearest_syn_neighbor_distance",
-                "close_values_probability",
-                "distant_values_probability",
-            ],
-            "stats": [
-                "jensenshannon_dist",
-                "chi_squared_test",
-                "inv_kl_divergence",
-                "ks_test",
-                "max_mean_discrepancy",
-                "wasserstein_dist",
-                "prdc",
-                "alpha_precision",
-                "survival_km_distance",
-            ],
-            "detection": [
-                "detection_xgb",
-                "detection_mlp",
-                "detection_gmm",
-                "detection_linear",
-            ],
-            "privacy": [
-                "delta-presence",
-                "k-anonymization",
-                "k-map",
-                "distinct l-diversity",
-                "identifiability_score",
-            ],
-        }
+        # --- Define evaluation metrics if not provided ---
+        if eval_metrics is None:
+            eval_metrics = {
+                "sanity": [
+                    "data_mismatch",
+                    "common_rows_proportion",
+                    "nearest_syn_neighbor_distance",
+                    "close_values_probability",
+                    "distant_values_probability",
+                ],
+                "stats": [
+                    "jensenshannon_dist",
+                    "chi_squared_test",
+                    "inv_kl_divergence",
+                    "ks_test",
+                    "max_mean_discrepancy",
+                    "wasserstein_dist",
+                    "prdc",
+                    "alpha_precision",
+                    "survival_km_distance",
+                ],
+                "detection": [
+                    "detection_xgb",
+                    "detection_mlp",
+                    "detection_gmm",
+                    "detection_linear",
+                ],
+                "privacy": [
+                    "delta-presence",
+                    "k-anonymization",
+                    "k-map",
+                    "distinct l-diversity",
+                    "identifiability_score",
+                ],
+            }
 
-    # --- Evaluate on test set ---
-    eval_testset = Metrics.evaluate(
-        self.X_test,
-        dge_df,
-        metrics=eval_metrics,
-        task_type="survival_analysis",
-        random_state=42,
-    )
+        # --- Evaluate on test set ---
+        eval_testset = Metrics.evaluate(
+            self.X_test,
+            dge_df,
+            metrics=eval_metrics,
+            task_type="survival_analysis",
+            random_state=42,
+        )
 
-    eval_testset[["mean"]].to_csv(
-        self.evaluations_folder / f"{self.path_stub}_evaluation_testset.csv"
-    )
+        eval_testset[["mean"]].to_csv(
+            self.evaluations_folder / f"{self.path_stub}_evaluation_testset.csv"
+        )
 
-    # --- Evaluate on training set ---
-    eval_trainset = Metrics.evaluate(
-        self.X,
-        dge_df,
-        metrics=eval_metrics,
-        task_type="survival_analysis",
-        random_state=42,
-    )
+        # --- Evaluate on training set ---
+        eval_trainset = Metrics.evaluate(
+            self.X,
+            dge_df,
+            metrics=eval_metrics,
+            task_type="survival_analysis",
+            random_state=42,
+        )
 
-    eval_trainset[["mean"]].to_csv(
-        self.evaluations_folder / f"{self.path_stub}_evaluation_trainset.csv"
-    )
+        eval_trainset[["mean"]].to_csv(
+            self.evaluations_folder / f"{self.path_stub}_evaluation_trainset.csv"
+        )
 
-    print("✅ Evaluation complete — results saved in", self.evaluations_folder)
+        print("✅ Evaluation complete — results saved in", self.evaluations_folder)
 
