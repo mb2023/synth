@@ -198,7 +198,7 @@ class SynthMed:
             print("⚠️  Detected missing data loaders. Reloading original datasets...")
 
             from synthcity.plugins.core.dataloader import GenericDataLoader
-            import pandas as pd
+            #import pandas as pd
             #from sklearn.model_selection import train_test_split
 
             # Adjust paths and target column name as needed
