@@ -192,23 +192,23 @@ class SynthMed:
         Evaluate the deep generative ensemble. Automatically reloads train/test
         datasets if they are missing (e.g., after a job restart).
         """
+       # --- Safety check: reload datasets if needed ---
+        # --- Always reload datasets for safety ---
+        print("🔄 Reloading training and test datasets (forced reload)...")
 
-        # --- Safety check: reload datasets if needed ---
-        if self.X is None or self.X_test is None:
-            print("⚠️  Detected missing data loaders. Reloading original datasets...")
+        from synthcity.plugins.core.dataloader import GenericDataLoader
+        import pandas as pd
+        from sklearn.model_selection import train_test_split
 
-            from synthcity.plugins.core.dataloader import GenericDataLoader
-            #import pandas as pd
-            #from sklearn.model_selection import train_test_split
+# Reload directly from your master CSV
+        df = pd.read_csv("master_spreadsheet.csv")
+        target_column = "Endo rem"
 
-            # Adjust paths and target column name as needed
-            df = pd.read_csv("master_spreadsheet.csv")
-            target_column = "Endo rem"
+        traindata, testdata = train_test_split(df, test_size=0.2, random_state=42)
 
-            traindata, testdata = train_test_split(df, test_size=0.2, random_state=42)
+        self.X = GenericDataLoader(traindata, target_column=target_column)
+        self.X_test = GenericDataLoader(testdata, target_column=target_column)
 
-            self.X = GenericDataLoader(traindata, target_column=target_column)
-            self.X_test = GenericDataLoader(testdata, target_column=target_column)
 
         # --- Load synthetic data ---
         dge_df = pd.read_csv(
@@ -264,6 +264,11 @@ class SynthMed:
         eval_testset[["mean"]].to_csv(
             self.evaluations_folder / f"{self.path_stub}_evaluation_testset.csv"
         )
+
+        print("DEBUG: type(self.X) =", type(self.X))
+        print("DEBUG: type(self.X_test) =", type(self.X_test))
+        print("DEBUG: synthetic_data_folder =", self.synthetic_data_folder)
+        print("DEBUG: path_stub =", self.path_stub)
 
         # --- Evaluate on training set ---
         eval_trainset = Metrics.evaluate(
