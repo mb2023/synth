@@ -254,9 +254,10 @@ class SynthMed:
 
         # --- Evaluate on test set ---
         # --- Evaluate on test set ---
+    # --- Evaluate on test set ---
         eval_testset = Metrics.evaluate(
             X_train=self.X,
-            X_test=self.X_test,
+            X_gt=self.X_test,       # ✅ changed from X_test= → X_gt=
             X_syn=dge_df,
             metrics=eval_metrics,
             task_type="survival_analysis",
@@ -265,28 +266,26 @@ class SynthMed:
 
         eval_testset[["mean"]].to_csv(
         self.evaluations_folder / f"{self.path_stub}_evaluation_testset.csv"
-        )
+        )   
 
         print("DEBUG: type(self.X) =", type(self.X))
         print("DEBUG: type(self.X_test) =", type(self.X_test))
         print("DEBUG: synthetic_data_folder =", self.synthetic_data_folder)
         print("DEBUG: path_stub =", self.path_stub)
 
-        # --- Evaluate on training set ---
-        # --- Evaluate on training set ---
+# --- Evaluate on training set ---
         eval_trainset = Metrics.evaluate(
             X_train=self.X,
-            X_test=self.X,
+            X_gt=self.X,            # ✅ changed from X_test= → X_gt=
             X_syn=dge_df,
             metrics=eval_metrics,
             task_type="survival_analysis",
             random_state=42,
-        )   
+        )
 
         eval_trainset[["mean"]].to_csv(
-            self.evaluations_folder / f"{self.path_stub}_evaluation_trainset.csv"
+        self.evaluations_folder / f"{self.path_stub}_evaluation_trainset.csv"
         )   
-
 
         print("✅ Evaluation complete — results saved in", self.evaluations_folder)
 

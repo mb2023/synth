@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from pathlib import Path
 import pandas as pd
 
-file_path = 'master_spreadsheet.csv'
+file_path ="/home/mb2023/my_hpc_projects/synthcity-docker-project/master_spreadsheet.csv"
 df = pd.read_csv(file_path)
 
 target_column = "Endo rem"
